@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "492047672821",
+    "project_id": "real-exam-system",
+    "storage_bucket": "real-exam-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492047672821:android:9df4e3e61259af78c4acbc",
+        "android_client_info": {
+          "package_name": "com.abyssial.r_e_s"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492047672821-de8b2do7knuvttl5rkmg4lbth12rvn9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtKuFgf8B6dTnYs-javHllUYwcKPBeb9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492047672821-de8b2do7knuvttl5rkmg4lbth12rvn9j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
