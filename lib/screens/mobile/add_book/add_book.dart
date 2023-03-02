@@ -57,6 +57,9 @@ class AddBook extends StatelessWidget {
             text: "Please try again later",
           );
           break;
+        case TaskState.canceled:
+          // TODO: Handle this case.
+          break;
       }
     });
   }
