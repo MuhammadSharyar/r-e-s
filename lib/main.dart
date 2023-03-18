@@ -5,6 +5,10 @@ import 'package:r_e_s/responsive/desktop_scaffold.dart';
 import 'package:r_e_s/responsive/mobile_scaffold.dart';
 import 'package:r_e_s/responsive/responsive_layout.dart';
 import 'package:r_e_s/responsive/tablet_scaffold.dart';
+import 'package:r_e_s/screens/mobile/all_screens/school_screens.dart';
+import 'package:r_e_s/screens/mobile/home/school_home.dart';
+import 'package:r_e_s/screens/mobile/home/student_home.dart';
+import 'package:r_e_s/screens/mobile/home/teacher_home.dart';
 import 'package:r_e_s/theme/theme_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -30,3 +34,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//abba@gmail.com 12345678
