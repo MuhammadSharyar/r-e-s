@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:r_e_s/screens/mobile/question_papers.dart';
 import 'package:r_e_s/screens/mobile/teacher_form/teacher_form.dart';
 
 import '../../../controllers/error_controller.dart';
@@ -67,22 +68,22 @@ class SchoolHome extends StatelessWidget {
                 Get.to(AddBook());
               },
             ),
-            customCard(
-              imagePath: "assets/teacher_forms.svg",
-              title: "Teacher Forms",
-              onPressed: () {
-                Get.find<ErrorController>().setErrorMessage("");
-                Get.to(TeacherForm());
-              },
-            ),
-            customCard(
-              imagePath: "assets/student_forms.svg",
-              title: "Student Forms",
-              onPressed: () {
-                Get.find<ErrorController>().setErrorMessage("");
-                Get.to(StudentForm());
-              },
-            ),
+            // customCard(
+            //   imagePath: "assets/teacher_forms.svg",
+            //   title: "Teacher Forms",
+            //   onPressed: () {
+            //     Get.find<ErrorController>().setErrorMessage("");
+            //     Get.to(TeacherForm());
+            //   },
+            // ),
+            // customCard(
+            //   imagePath: "assets/student_forms.svg",
+            //   title: "Student Forms",
+            //   onPressed: () {
+            //     Get.find<ErrorController>().setErrorMessage("");
+            //     Get.to(StudentForm());
+            //   },
+            // ),
             customCard(
               imagePath: "assets/questions.svg",
               title: "Add Questions",
@@ -96,7 +97,8 @@ class SchoolHome extends StatelessWidget {
               title: "Generate Exams",
               onPressed: () {
                 Get.find<ErrorController>().setErrorMessage("");
-                Get.to(ExamTypes());
+                //Get.to(ExamTypes());
+                Get.to(AutoPaperPage());
               },
             ),
             customCard(
