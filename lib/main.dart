@@ -9,6 +9,7 @@ import 'package:r_e_s/screens/mobile/all_screens/school_screens.dart';
 import 'package:r_e_s/screens/mobile/home/school_home.dart';
 import 'package:r_e_s/screens/mobile/home/student_home.dart';
 import 'package:r_e_s/screens/mobile/home/teacher_home.dart';
+import 'package:r_e_s/screens/mobile/demo.dart';
 import 'package:r_e_s/theme/theme_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
