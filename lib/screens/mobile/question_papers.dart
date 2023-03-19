@@ -34,11 +34,11 @@ class _AutoPaperPageState extends State<AutoPaperPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Auto Paper Generator'),
+          title: const Text('Auto Paper Generator'),
         ),
         body: Center(
             child: ElevatedButton(
-                child: Text('Generate Auto Papers'),
+                child: const Text('Generate Auto Papers'),
                 onPressed: () async {
                   _numPapers = (await showDialog<int>(
                     context: context,
@@ -50,18 +50,18 @@ class _AutoPaperPageState extends State<AutoPaperPage> {
                           keyboardType: TextInputType.number,
                           initialValue: '1',
                           onChanged: (value) => _n = int.tryParse(value) ?? _n,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Number of Papers',
                             hintText: 'Enter number of papers to generate',
                           ),
                         ),
                         actions: <Widget>[
                           TextButton(
-                            child: Text('CANCEL'),
+                            child: const Text('CANCEL'),
                             onPressed: () => Navigator.of(context).pop(),
                           ),
                           TextButton(
-                            child: Text('OK'),
+                            child: const Text('OK'),
                             onPressed: () => Navigator.of(context).pop(_n),
                           ),
                         ],
@@ -100,14 +100,15 @@ class _AutoPaperPageState extends State<AutoPaperPage> {
                               children: [
                                 pdfLib.Text(
                                   'Auto Paper $i',
-                                  style: pdfLib.TextStyle(
+                                  style: const pdfLib.TextStyle(
                                     fontSize: 20,
                                   ),
                                 ),
                                 pdfLib.SizedBox(height: 10),
                                 for (int j = 0; j < autoPaper.length; j++)
                                   pdfLib.Container(
-                                    margin: pdfLib.EdgeInsets.only(bottom: 10),
+                                    margin: const pdfLib.EdgeInsets.only(
+                                        bottom: 10),
                                     child: pdfLib.Column(
                                       crossAxisAlignment:
                                           pdfLib.CrossAxisAlignment.start,
@@ -135,6 +136,38 @@ class _AutoPaperPageState extends State<AutoPaperPage> {
                       print(path);
                     }
                   }
+                  Future.delayed(Duration(milliseconds: 1), () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: Container(
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                  size: 80,
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  "Success",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                    Future.delayed(Duration(milliseconds: 1000), () {
+                      Navigator.of(context).pop();
+                    });
+                  });
                 })));
 
 // Save the PDF file in the mobile device's local storage
