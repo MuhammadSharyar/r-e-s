@@ -17,10 +17,10 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:open_file/open_file.dart';
 import 'package:http/http.dart' as http;
 
-class GenerateExam extends StatelessWidget {
+class GenerateExam1 extends StatelessWidget {
   final String forClass, forCourse, forChapter;
   final List questionTypes;
-  GenerateExam({
+  GenerateExam1({
     super.key,
     required this.questionTypes,
     required this.forClass,
@@ -978,9 +978,8 @@ class GenerateExam extends StatelessWidget {
     required List letters,
     required List stories,
     required List meanings,
-    required int n,
   }) async {
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < 5; i++) {
       mcqs.shuffle(Random());
       shorts.shuffle(Random());
       longs.shuffle(Random());
@@ -991,7 +990,7 @@ class GenerateExam extends StatelessWidget {
       stories.shuffle(Random());
       meanings.shuffle(Random());
 
-      generateExam1(
+      generateExam(
         mcqs: mcqs,
         shorts: shorts,
         longs: longs,
@@ -1321,16 +1320,16 @@ class GenerateExam extends StatelessWidget {
                             },
                           ))!;
                           await generateExam(
-                              mcqs: selectedMcqs,
-                              shorts: selectedShort,
-                              longs: selectedLong,
-                              blanks: selectedBlanks,
-                              essays: selectedEssays,
-                              letters: selectedLetters,
-                              stories: selectedStories,
-                              truefalse: selectedTruefalse,
-                              meanings: selectedMeanings,
-                              n: _numPapers);
+                            mcqs: selectedMcqs,
+                            shorts: selectedShort,
+                            longs: selectedLong,
+                            blanks: selectedBlanks,
+                            essays: selectedEssays,
+                            letters: selectedLetters,
+                            stories: selectedStories,
+                            truefalse: selectedTruefalse,
+                            meanings: selectedMeanings,
+                          );
                         }
                       } else if (await Permission.storage.isGranted) {
                         int _numPapers = 1;
@@ -1366,16 +1365,16 @@ class GenerateExam extends StatelessWidget {
                           },
                         ))!;
                         await generateExam(
-                            mcqs: selectedMcqs,
-                            shorts: selectedShort,
-                            longs: selectedLong,
-                            blanks: selectedBlanks,
-                            essays: selectedEssays,
-                            letters: selectedLetters,
-                            stories: selectedStories,
-                            truefalse: selectedTruefalse,
-                            meanings: selectedMeanings,
-                            n: _numPapers);
+                          mcqs: selectedMcqs,
+                          shorts: selectedShort,
+                          longs: selectedLong,
+                          blanks: selectedBlanks,
+                          essays: selectedEssays,
+                          letters: selectedLetters,
+                          stories: selectedStories,
+                          truefalse: selectedTruefalse,
+                          meanings: selectedMeanings,
+                        );
                       }
                       loadingController.setLoading(false);
                     }

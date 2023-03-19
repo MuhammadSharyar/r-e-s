@@ -97,8 +97,8 @@ class SchoolHome extends StatelessWidget {
               title: "Generate Exams",
               onPressed: () {
                 Get.find<ErrorController>().setErrorMessage("");
-                //Get.to(ExamTypes());
-                Get.to(AutoPaperPage());
+                Get.to(ExamTypes());
+                //  Get.to(AutoPaperPage());
               },
             ),
             customCard(
