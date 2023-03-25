@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDNFXgXDrhFgCmgjaQ62sosjtCOh1fRDho',
-    appId: '1:492047672821:web:7ad6954b26aa2e2fc4acbc',
-    messagingSenderId: '492047672821',
-    projectId: 'real-exam-system',
-    authDomain: 'real-exam-system.firebaseapp.com',
-    storageBucket: 'real-exam-system.appspot.com',
+    apiKey: 'AIzaSyDlrr4WjVMJSg0wdlagKgOzactQ44nRtlI',
+    appId: '1:135759590097:web:18579ec29b699bdb014bf0',
+    messagingSenderId: '135759590097',
+    projectId: 'r-e-s-16d91',
+    authDomain: 'r-e-s-16d91.firebaseapp.com',
+    storageBucket: 'r-e-s-16d91.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAtKuFgf8B6dTnYs-javHllUYwcKPBeb9Y',
-    appId: '1:492047672821:android:9df4e3e61259af78c4acbc',
-    messagingSenderId: '492047672821',
-    projectId: 'real-exam-system',
-    storageBucket: 'real-exam-system.appspot.com',
+    apiKey: 'AIzaSyB-Hgn4v8-ZVZ_rOdu1dx2K_tW7toYF6ag',
+    appId: '1:135759590097:android:e7c02363bbd2ca29014bf0',
+    messagingSenderId: '135759590097',
+    projectId: 'r-e-s-16d91',
+    storageBucket: 'r-e-s-16d91.appspot.com',
   );
 }
