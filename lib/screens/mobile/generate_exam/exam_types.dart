@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:r_e_s/screens/mobile/generate_exam/quick_exam/sample1.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -66,6 +66,24 @@ class ExamTypes extends StatelessWidget {
               },
               child: Text(
                 "Whole Book",
+                style: TextStyle(
+                  fontSize: medium,
+                ),
+              ),
+            ),
+          ),
+          addVerticalSpace(10),
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 1.5,
+            height: 55,
+            child: OutlinedButton(
+              style: OutlinedButton.styleFrom(),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => quickexam()));
+              },
+              child: Text(
+                "Quick exam",
                 style: TextStyle(
                   fontSize: medium,
                 ),
