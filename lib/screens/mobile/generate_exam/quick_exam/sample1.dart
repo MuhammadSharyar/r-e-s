@@ -2,9 +2,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'result.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(quickexam());
 
-class MyApp extends StatelessWidget {
+class quickexam extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
