@@ -964,6 +964,7 @@ class GenerateExam extends StatelessWidget {
     var filePath = "/storage/emulated/0/Download/$forCourse.pdf";
     File pdfFile = File(filePath);
     await pdfFile.writeAsBytes(await pdf.save());
+    print("saveeeeeeeee");
     OpenFile.open(pdfFile.path);
   }
 

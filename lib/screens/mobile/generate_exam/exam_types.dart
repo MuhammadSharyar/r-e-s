@@ -79,8 +79,8 @@ class ExamTypes extends StatelessWidget {
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => quickexam()));
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => quickexam()));
               },
               child: Text(
                 "Quick exam",
