@@ -963,9 +963,17 @@ class GenerateExam extends StatelessWidget {
       ),
     );
     var filePath = "/storage/emulated/0/Download/${forCourse}_$forChapter.pdf";
+    int fileNum = 0;
     File pdfFile = File(filePath);
+    while (pdfFile.existsSync()) {
+      fileNum++;
+      pdfFile = File(
+          "/storage/emulated/0/Download/${forCourse}_${forChapter}__$fileNum.pdf");
+    }
+
     await pdfFile.writeAsBytes(await pdf.save());
-    OpenFile.open(pdfFile.path);
+    print(pdfFile.path);
+    //OpenFile.open(pdfFile.path);
   }
 
   Future generateExam({
@@ -980,6 +988,7 @@ class GenerateExam extends StatelessWidget {
     required List meanings,
     required int n,
   }) async {
+    print(n);
     for (int i = 0; i < n; i++) {
       mcqs.shuffle(Random());
       shorts.shuffle(Random());
@@ -990,8 +999,8 @@ class GenerateExam extends StatelessWidget {
       letters.shuffle(Random());
       stories.shuffle(Random());
       meanings.shuffle(Random());
-
-      generateExam1(
+      print("helll");
+      await generateExam1(
         mcqs: mcqs,
         shorts: shorts,
         longs: longs,
@@ -1002,6 +1011,7 @@ class GenerateExam extends StatelessWidget {
         stories: stories,
         meanings: meanings,
       );
+      print("i");
     }
   }
 
@@ -1331,6 +1341,38 @@ class GenerateExam extends StatelessWidget {
                               truefalse: selectedTruefalse,
                               meanings: selectedMeanings,
                               n: _numPapers);
+                          Future.delayed(Duration(milliseconds: 1), () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  child: Container(
+                                    padding: EdgeInsets.all(16),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.check_circle,
+                                          color: Colors.green,
+                                          size: 80,
+                                        ),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          "Success",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                            Future.delayed(Duration(milliseconds: 1000), () {
+                              Navigator.of(context).pop();
+                            });
+                          });
                         }
                       } else if (await Permission.storage.isGranted) {
                         int _numPapers = 1;
@@ -1376,6 +1418,39 @@ class GenerateExam extends StatelessWidget {
                             truefalse: selectedTruefalse,
                             meanings: selectedMeanings,
                             n: _numPapers);
+
+                        Future.delayed(Duration(milliseconds: 1), () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                child: Container(
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                        size: 80,
+                                      ),
+                                      SizedBox(height: 16),
+                                      Text(
+                                        "Success",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                          Future.delayed(Duration(milliseconds: 1000), () {
+                            Navigator.of(context).pop();
+                          });
+                        });
                       }
                       loadingController.setLoading(false);
                     }

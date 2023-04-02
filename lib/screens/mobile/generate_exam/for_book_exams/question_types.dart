@@ -9,6 +9,8 @@ import 'package:r_e_s/screens/mobile/generate_exam/for_book_exams/generate_exam.
 import 'package:r_e_s/theme/theme_constants.dart';
 import 'package:r_e_s/utils/helper_widgets.dart';
 
+import '../../demo.dart';
+
 class QuestionTypes extends StatelessWidget {
   final String forClass, forCourse;
   QuestionTypes({

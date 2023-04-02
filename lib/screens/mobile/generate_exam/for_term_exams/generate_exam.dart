@@ -743,7 +743,7 @@ class GenerateExam extends StatelessWidget {
     );
   }
 
-  Future generateExam({
+  Future generateExam1({
     required List mcqs,
     required List shorts,
     required List longs,
@@ -962,10 +962,57 @@ class GenerateExam extends StatelessWidget {
         },
       ),
     );
+
     var filePath = "/storage/emulated/0/Download/${forCourse}_$forTerm.pdf";
+    int fileNum = 0;
     File pdfFile = File(filePath);
+    while (pdfFile.existsSync()) {
+      fileNum++;
+      pdfFile = File(
+          "/storage/emulated/0/Download/${forCourse}_${forTerm}__$fileNum.pdf");
+    }
+
     await pdfFile.writeAsBytes(await pdf.save());
-    OpenFile.open(pdfFile.path);
+    print(pdfFile.path);
+  }
+
+  Future generateExam({
+    required List mcqs,
+    required List shorts,
+    required List longs,
+    required List blanks,
+    required List truefalse,
+    required List essays,
+    required List letters,
+    required List stories,
+    required List meanings,
+    required int n,
+  }) async {
+    print(n);
+    for (int i = 0; i < n; i++) {
+      mcqs.shuffle(Random());
+      shorts.shuffle(Random());
+      longs.shuffle(Random());
+      blanks.shuffle(Random());
+      truefalse.shuffle(Random());
+      essays.shuffle(Random());
+      letters.shuffle(Random());
+      stories.shuffle(Random());
+      meanings.shuffle(Random());
+      print("helll");
+      await generateExam1(
+        mcqs: mcqs,
+        shorts: shorts,
+        longs: longs,
+        blanks: blanks,
+        truefalse: truefalse,
+        essays: essays,
+        letters: letters,
+        stories: stories,
+        meanings: meanings,
+      );
+      print("i");
+    }
   }
 
   @override
@@ -1250,6 +1297,39 @@ class GenerateExam extends StatelessWidget {
                       if (await Permission.storage.isDenied) {
                         await Permission.storage.request();
                         if (await Permission.storage.isGranted) {
+                          int _numPapers = 1;
+                          _numPapers = (await showDialog<int>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              int _n = 1;
+                              return AlertDialog(
+                                title: const Text('Generate Auto Papers'),
+                                content: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  initialValue: '1',
+                                  onChanged: (value) =>
+                                      _n = int.tryParse(value) ?? _n,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Number of Papers',
+                                    hintText:
+                                        'Enter number of papers to generate',
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('CANCEL'),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                  ),
+                                  TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(_n),
+                                  ),
+                                ],
+                              );
+                            },
+                          ))!;
                           await generateExam(
                             mcqs: selectedMcqs,
                             shorts: selectedShort,
@@ -1260,9 +1340,74 @@ class GenerateExam extends StatelessWidget {
                             stories: selectedStories,
                             truefalse: selectedTruefalse,
                             meanings: selectedMeanings,
+                            n: _numPapers,
                           );
+                          Future.delayed(Duration(milliseconds: 1), () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  child: Container(
+                                    padding: EdgeInsets.all(16),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.check_circle,
+                                          color: Colors.green,
+                                          size: 80,
+                                        ),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          "Success",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                            Future.delayed(Duration(milliseconds: 1000), () {
+                              Navigator.of(context).pop();
+                            });
+                          });
                         }
                       } else if (await Permission.storage.isGranted) {
+                        int _numPapers = 1;
+                        _numPapers = (await showDialog<int>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            int _n = 1;
+                            return AlertDialog(
+                              title: const Text('Generate Auto Papers'),
+                              content: TextFormField(
+                                keyboardType: TextInputType.number,
+                                initialValue: '1',
+                                onChanged: (value) =>
+                                    _n = int.tryParse(value) ?? _n,
+                                decoration: const InputDecoration(
+                                  labelText: 'Number of Papers',
+                                  hintText:
+                                      'Enter number of papers to generate',
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('CANCEL'),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(_n),
+                                ),
+                              ],
+                            );
+                          },
+                        ))!;
                         await generateExam(
                           mcqs: selectedMcqs,
                           shorts: selectedShort,
@@ -1273,7 +1418,40 @@ class GenerateExam extends StatelessWidget {
                           stories: selectedStories,
                           truefalse: selectedTruefalse,
                           meanings: selectedMeanings,
+                          n: _numPapers,
                         );
+                        Future.delayed(Duration(milliseconds: 1), () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                child: Container(
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                        size: 80,
+                                      ),
+                                      SizedBox(height: 16),
+                                      Text(
+                                        "Success",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                          Future.delayed(Duration(milliseconds: 1000), () {
+                            Navigator.of(context).pop();
+                          });
+                        });
                       }
                       loadingController.setLoading(false);
                     }
