@@ -1350,7 +1350,7 @@ class GenerateExam extends StatelessWidget {
                                     padding: EdgeInsets.all(16),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      children: [
+                                      children: const [
                                         Icon(
                                           Icons.check_circle,
                                           color: Colors.green,
