@@ -17,6 +17,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:open_file/open_file.dart';
 import 'package:http/http.dart' as http;
 
+import 'manual.dart';
+
 class GenerateExam extends StatelessWidget {
   final String forClass, forCourse, forChapter;
   final List questionTypes;
@@ -47,6 +49,33 @@ class GenerateExam extends StatelessWidget {
   final headingTextSize = 21.0;
   final normalTextSize = 17.0;
   final smallTextSize = 16.0;
+
+  Future<int?> showDialogWithChoice(
+      BuildContext context, String title, String message) async {
+    return await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Auto'),
+              onPressed: () {
+                Navigator.of(context).pop(0);
+              },
+            ),
+            TextButton(
+              child: const Text('Manual'),
+              onPressed: () {
+                Navigator.of(context).pop(1);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void setCount() {
     countController.count.value = 0;
@@ -95,6 +124,21 @@ class GenerateExam extends StatelessWidget {
     } else {
       countController.count.value += 0;
     }
+  }
+
+  Future<List<dynamic>> _showQuestionList(BuildContext context,
+      List<dynamic> questions, List<dynamic> lisst) async {
+    final selected = await Navigator.of(context).push<List<dynamic>>(
+      MaterialPageRoute(
+        builder: (context) => QuestionListPage(
+          questions: lisst,
+        ),
+      ),
+    );
+    if (selected != null) {
+      questions = selected;
+    }
+    return questions;
   }
 
   Future selectQuestions({
@@ -973,7 +1017,7 @@ class GenerateExam extends StatelessWidget {
 
     await pdfFile.writeAsBytes(await pdf.save());
     print(pdfFile.path);
-    //OpenFile.open(pdfFile.path);
+    OpenFile.open(pdfFile.path);
   }
 
   Future generateExam({
@@ -1194,106 +1238,181 @@ class GenerateExam extends StatelessWidget {
                           selectedEssays = [],
                           selectedStories = [],
                           selectedMeanings = [];
-
-                      for (int i = 0; i < questionTypes.length; i++) {
-                        await questionController.getQuestions(
-                          forClass: forClass,
-                          forCourse: forCourse,
-                          forChapter: forChapter,
-                          questionType: questionTypes[i],
-                        );
-                        if (questionTypes[i] == "MCQ Questions" &&
-                            int.parse(mcqController.text) != 0 &&
-                            mcqController.text != "") {
-                          mcqs = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: mcqController,
-                            questionList: mcqs,
-                          ).then((value) {
-                            selectedMcqs = value;
-                          });
-                        } else if (questionTypes[i] == "Short Questions" &&
-                            int.parse(shortController.text) != 0 &&
-                            shortController.text != "") {
-                          short = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: shortController,
-                            questionList: short,
-                          ).then((value) {
-                            selectedShort = value;
-                          });
-                        } else if (questionTypes[i] == "Long Questions" &&
-                            int.parse(longController.text) != 0 &&
-                            longController.text != "") {
-                          long = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: longController,
-                            questionList: long,
-                          ).then((value) {
-                            selectedLong = value;
-                          });
-                        } else if (questionTypes[i] == "Fill in the Blanks" &&
-                            int.parse(blanksController.text) != 0 &&
-                            blanksController.text != "") {
-                          blanks = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: blanksController,
-                            questionList: blanks,
-                          ).then((value) {
-                            selectedBlanks = value;
-                          });
-                        } else if (questionTypes[i] == "True False" &&
-                            int.parse(trueFalseController.text) != 0 &&
-                            trueFalseController.text != "") {
-                          truefalse = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: trueFalseController,
-                            questionList: truefalse,
-                          ).then((value) {
-                            selectedTruefalse = value;
-                          });
-                        } else if (questionTypes[i] == "Letters" &&
-                            int.parse(letterController.text) != 0 &&
-                            letterController.text != "") {
-                          letters = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: letterController,
-                            questionList: letters,
-                          ).then((value) {
-                            selectedLetters = value;
-                          });
-                        } else if (questionTypes[i] == "Essays" &&
-                            int.parse(essayController.text) != 0 &&
-                            essayController.text != "") {
-                          essays = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: essayController,
-                            questionList: essays,
-                          ).then((value) {
-                            selectedEssays = value;
-                          });
-                        } else if (questionTypes[i] == "Stories" &&
-                            int.parse(storyController.text) != 0 &&
-                            storyController.text != "") {
-                          stories = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: storyController,
-                            questionList: stories,
-                          ).then((value) {
-                            selectedStories = value;
-                          });
-                        } else if (questionTypes[i] == "Word Meanings" &&
-                            int.parse(meaningController.text) != 0 &&
-                            meaningController.text != "") {
-                          meanings = questionController.questions;
-                          await selectQuestions(
-                            questionTextController: meaningController,
-                            questionList: meanings,
-                          ).then((value) {
-                            selectedMeanings = value;
-                          });
+                      final choice = await showDialogWithChoice(
+                        context,
+                        'Choose an option',
+                        'Do you want to go with Auto or Manual?',
+                      );
+                      if (choice != null) {
+                        if (choice == 0) {
+                          for (int i = 0; i < questionTypes.length; i++) {
+                            await questionController.getQuestions(
+                              forClass: forClass,
+                              forCourse: forCourse,
+                              forChapter: forChapter,
+                              questionType: questionTypes[i],
+                            );
+                            if (questionTypes[i] == "MCQ Questions" &&
+                                int.parse(mcqController.text) != 0 &&
+                                mcqController.text != "") {
+                              mcqs = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: mcqController,
+                                questionList: mcqs,
+                              ).then((value) {
+                                selectedMcqs = value;
+                              });
+                            } else if (questionTypes[i] == "Short Questions" &&
+                                int.parse(shortController.text) != 0 &&
+                                shortController.text != "") {
+                              short = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: shortController,
+                                questionList: short,
+                              ).then((value) {
+                                selectedShort = value;
+                              });
+                            } else if (questionTypes[i] == "Long Questions" &&
+                                int.parse(longController.text) != 0 &&
+                                longController.text != "") {
+                              long = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: longController,
+                                questionList: long,
+                              ).then((value) {
+                                selectedLong = value;
+                              });
+                            } else if (questionTypes[i] ==
+                                    "Fill in the Blanks" &&
+                                int.parse(blanksController.text) != 0 &&
+                                blanksController.text != "") {
+                              blanks = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: blanksController,
+                                questionList: blanks,
+                              ).then((value) {
+                                selectedBlanks = value;
+                              });
+                            } else if (questionTypes[i] == "True False" &&
+                                int.parse(trueFalseController.text) != 0 &&
+                                trueFalseController.text != "") {
+                              truefalse = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: trueFalseController,
+                                questionList: truefalse,
+                              ).then((value) {
+                                selectedTruefalse = value;
+                              });
+                            } else if (questionTypes[i] == "Letters" &&
+                                int.parse(letterController.text) != 0 &&
+                                letterController.text != "") {
+                              letters = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: letterController,
+                                questionList: letters,
+                              ).then((value) {
+                                selectedLetters = value;
+                              });
+                            } else if (questionTypes[i] == "Essays" &&
+                                int.parse(essayController.text) != 0 &&
+                                essayController.text != "") {
+                              essays = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: essayController,
+                                questionList: essays,
+                              ).then((value) {
+                                selectedEssays = value;
+                              });
+                            } else if (questionTypes[i] == "Stories" &&
+                                int.parse(storyController.text) != 0 &&
+                                storyController.text != "") {
+                              stories = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: storyController,
+                                questionList: stories,
+                              ).then((value) {
+                                selectedStories = value;
+                              });
+                            } else if (questionTypes[i] == "Word Meanings" &&
+                                int.parse(meaningController.text) != 0 &&
+                                meaningController.text != "") {
+                              meanings = questionController.questions;
+                              await selectQuestions(
+                                questionTextController: meaningController,
+                                questionList: meanings,
+                              ).then((value) {
+                                selectedMeanings = value;
+                              });
+                            }
+                          }
+                        } else {
+                          for (int i = 0; i < questionTypes.length; i++) {
+                            await questionController.getQuestions(
+                              forClass: forClass,
+                              forCourse: forCourse,
+                              forChapter: forChapter,
+                              questionType: questionTypes[i],
+                            );
+                            if (questionTypes[i] == "MCQ Questions" &&
+                                int.parse(mcqController.text) != 0 &&
+                                mcqController.text != "") {
+                              mcqs = questionController.questions;
+                              selectedMcqs = await _showQuestionList(
+                                  context, selectedMcqs, mcqs);
+                            } else if (questionTypes[i] == "Short Questions" &&
+                                int.parse(shortController.text) != 0 &&
+                                shortController.text != "") {
+                              short = questionController.questions;
+                              selectedShort = await _showQuestionList(
+                                  context, selectedShort, short);
+                            } else if (questionTypes[i] == "Long Questions" &&
+                                int.parse(longController.text) != 0 &&
+                                longController.text != "") {
+                              long = questionController.questions;
+                              selectedLong = await _showQuestionList(
+                                  context, selectedLong, long);
+                            } else if (questionTypes[i] ==
+                                    "Fill in the Blanks" &&
+                                int.parse(blanksController.text) != 0 &&
+                                blanksController.text != "") {
+                              blanks = questionController.questions;
+                              selectedBlanks = await _showQuestionList(
+                                  context, selectedBlanks, blanks);
+                            } else if (questionTypes[i] == "True False" &&
+                                int.parse(trueFalseController.text) != 0 &&
+                                trueFalseController.text != "") {
+                              truefalse = questionController.questions;
+                              selectedTruefalse = await _showQuestionList(
+                                  context, selectedTruefalse, truefalse);
+                            } else if (questionTypes[i] == "Letters" &&
+                                int.parse(letterController.text) != 0 &&
+                                letterController.text != "") {
+                              letters = questionController.questions;
+                              selectedLetters = await _showQuestionList(
+                                  context, selectedLetters, letters);
+                            } else if (questionTypes[i] == "Essays" &&
+                                int.parse(essayController.text) != 0 &&
+                                essayController.text != "") {
+                              essays = questionController.questions;
+                              selectedEssays = await _showQuestionList(
+                                  context, selectedEssays, essays);
+                            } else if (questionTypes[i] == "Stories" &&
+                                int.parse(storyController.text) != 0 &&
+                                storyController.text != "") {
+                              stories = questionController.questions;
+                              selectedStories = await _showQuestionList(
+                                  context, selectedStories, stories);
+                            } else if (questionTypes[i] == "Word Meanings" &&
+                                int.parse(meaningController.text) != 0 &&
+                                meaningController.text != "") {
+                              meanings = questionController.questions;
+                              selectedMeanings = await _showQuestionList(
+                                  context, selectedMeanings, meanings);
+                            }
+                          }
                         }
                       }
+
                       if (await Permission.storage.isDenied) {
                         await Permission.storage.request();
                         if (await Permission.storage.isGranted) {
