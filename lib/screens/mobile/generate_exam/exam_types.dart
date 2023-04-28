@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:r_e_s/controllers/get_data_controllers.dart';
 import 'package:r_e_s/screens/mobile/generate_exam/quick_exam/sample1.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:r_e_s/screens/mobile/generate_exam/for_term_exams/class_list.dar
 
 import '../../../theme/theme_constants.dart';
 import '../../../utils/helper_widgets.dart';
+import '../result_card.dart';
 
 class ExamTypes extends StatelessWidget {
   const ExamTypes({Key? key}) : super(key: key);
@@ -79,11 +81,12 @@ class ExamTypes extends StatelessWidget {
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(),
               onPressed: () {
+                Get.to(ResultPage());
                 // Navigator.push(context,
                 //     MaterialPageRoute(builder: (context) => quickexam()));
               },
               child: Text(
-                "Quick exam",
+                "quick exam",
                 style: TextStyle(
                   fontSize: medium,
                 ),

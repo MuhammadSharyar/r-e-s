@@ -1,76 +1,117 @@
-// import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-// class ResultPage extends StatelessWidget {
-//   final User? user = FirebaseAuth.instance.currentUser;
+class ResultPage extends StatefulWidget {
+  @override
+  _ResultPageState createState() => _ResultPageState();
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<QuerySnapshot>(
-//       stream: FirebaseFirestore.instance.collection('results').snapshots(),
-//       builder: (context, snapshot) {
-//         if (!snapshot.hasData) {
-//           return Center(
-//             child: CircularProgressIndicator(),
-//           );
-//         }
+class _ResultPageState extends State<ResultPage> {
+  bool _isTeacher = false;
 
-//         List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
+  List<Map<String, dynamic>> _results = [
+    {
+      'name': 'John',
+      'subject': 'Maths',
+      'marks': 90,
+    },
+    {
+      'name': 'John',
+      'subject': 'Science',
+      'marks': 80,
+    },
+    {
+      'name': 'Mary',
+      'subject': 'Maths',
+      'marks': 95,
+    },
+    {
+      'name': 'Mary',
+      'subject': 'Science',
+      'marks': 85,
+    },
+  ];
 
-//         if (user != null && user!.role == 'student') {
-//           documents =
-//               documents.where((doc) => doc['studentId'] == user!.uid).toList();
-//         }
+  late List<Map<String, dynamic>> _filteredResults;
 
-//         return GridView.builder(
-//           padding: EdgeInsets.all(8),
-//           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//             crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
-//             crossAxisSpacing: 8,
-//             mainAxisSpacing: 8,
-//             childAspectRatio: MediaQuery.of(context).size.width /
-//                 (MediaQuery.of(context).size.height / 2),
-//           ),
-//           itemCount: documents.length,
-//           itemBuilder: (context, index) {
-//             Map<String, dynamic> data = documents[index].data();
-//             String courseName = data['courseName'];
-//             int marks = data['marks'];
-//             return ResultCard(
-//               courseName: courseName,
-//               marks: marks,
-//             );
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
+  @override
+  void initState() {
+    super.initState();
 
-// class ResultCard extends StatelessWidget {
-//   final String courseName;
-//   final int marks;
+    // Get the Firebase database reference
+    //_resultsRef = FirebaseDatabase.instance.reference().child('results');
 
-//   ResultCard({required this.courseName, required this.marks});
+    _isTeacher = true;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Text(
-//             courseName,
-//             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 16),
-//           Text(
-//             '$marks marks',
-//             style: TextStyle(fontSize: 18),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+    // Filter the results based on the user type
+    if (_isTeacher) {
+      _filteredResults = _results;
+    } else {
+      // In this example, we're hardcoding the student name
+      // In a real app, you would use Firebase Authentication to get the student name
+      String studentName = 'John';
+      _filteredResults =
+          _results.where((result) => result['name'] == studentName).toList();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Results'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (_isTeacher)
+              DataTable(
+                columns: const [
+                  DataColumn(
+                    label: Text(
+                      'Name',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'subject',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Marks',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+                rows: _filteredResults
+                    .map((result) => DataRow(cells: [
+                          DataCell(Text(result['name'])),
+                          DataCell(Text(result['subject'])),
+                          DataCell(Text(result['marks'].toString())),
+                        ]))
+                    .toList(),
+              ),
+            if (!_isTeacher)
+              DataTable(
+                columns: const [
+                  DataColumn(label: Text('Subject')),
+                  DataColumn(label: Text('Marks')),
+                ],
+                rows: _filteredResults
+                    .map((result) => DataRow(cells: [
+                          DataCell(Text(result['subject'])),
+                          DataCell(Text(result['marks'].toString())),
+                        ]))
+                    .toList(),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}

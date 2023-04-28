@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:r_e_s/screens/mobile/question_papers.dart';
+import 'package:r_e_s/screens/mobile/result_card.dart';
 import 'package:r_e_s/screens/mobile/teacher_form/teacher_form.dart';
 
 import '../../../controllers/error_controller.dart';
@@ -68,6 +69,7 @@ class SchoolHome extends StatelessWidget {
                 Get.to(AddBook());
               },
             ),
+
             // customCard(
             //   imagePath: "assets/teacher_forms.svg",
             //   title: "Teacher Forms",
@@ -99,6 +101,14 @@ class SchoolHome extends StatelessWidget {
                 Get.find<ErrorController>().setErrorMessage("");
                 Get.to(ExamTypes());
                 //  Get.to(AutoPaperPage());
+              },
+            ),
+            customCard(
+              imagePath: "assets/result.svg",
+              title: "Result",
+              onPressed: () {
+                Get.find<ErrorController>().setErrorMessage("");
+                Get.to(ResultPage());
               },
             ),
             customCard(
